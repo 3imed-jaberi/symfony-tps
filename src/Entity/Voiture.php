@@ -49,7 +49,7 @@ class Voiture
 
     public function setColeur($coleur)
     {
-        $this->coleur;
+        $this->coleur = $coleur;
     }
 
     /**
