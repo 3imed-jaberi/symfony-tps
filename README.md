@@ -26,6 +26,6 @@ This project is a crud web application using symfony. It's my work for [the 1st 
 
 #### Note: the internet needed for use bootstrap and sweetalert beaucase of the CDNs.
 
-#### License
+### `License`
 
 [MIT](LICENSE) &copy; [Imed Jaberi](https://github.com/3imed-jaberi)
