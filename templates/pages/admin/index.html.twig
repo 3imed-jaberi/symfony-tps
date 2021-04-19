@@ -49,7 +49,9 @@
 									&nbsp;
 									<a href="/agence/modifier/{{ agence.id }}" class="btn btn-warning">Modifier</a>
 									&nbsp;
-									<a href="/agence/supprimer/{{ agence.id }}" class="btn btn-danger">Supprimer</a>
+									{# used with get method	#}
+									{# <a href="/agence/supprimer/{{ agence.id }}" class="btn btn-danger">Supprimer</a> #}
+										<a id='agence-delete-btn' data-id={{ agence.id }} class="btn btn-danger"> Supprimer</a>
 								</td>
 							</tr>
 						{% endfor %}
@@ -97,8 +99,9 @@
 								<td>{{ voiture.nomAgence }}</td>
 								<td>
 									<a href="/voiture/modifier/{{ voiture.id }}" class="btn btn-warning">Modifier</a>
-									&nbsp;																																																																																																																																												&nbsp;
-									<a href="/voiture/supprimer/{{ voiture.id }}" class="btn btn-danger">Supprimer</a>
+									&nbsp;&nbsp;{# used with get method	#}
+									{# <a href="/voiture/supprimer/{{ voiture.id }}" class="btn btn-danger">Supprimer</a> #}
+										<a id='voiture-delete-btn' data-id={{voiture.id}} class="btn btn-danger"> Supprimer</a>
 								</td>
 							</tr>
 						{% endfor %}
@@ -109,4 +112,8 @@
 	</div>
 	{# =================================== #}
 	<hr/>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="/scripts/main.js"></script>
 {% endblock %}
