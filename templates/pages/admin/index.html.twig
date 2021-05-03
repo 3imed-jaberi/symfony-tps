@@ -42,7 +42,7 @@
 							<tr>
 								<td>{{ agence.id }}</td>
 								<td>{{ agence.nom }}</td>
-								<td>{{ agence.telagence }}</td>
+								<td>{{ agence.telAgence }}</td>
 								<td>{{ agence.addressVille }}</td>
 								<td>
 									<a href="/agence/consulter/{{ agence.id }}" class="btn btn-success">Voir</a>
@@ -96,10 +96,11 @@
 								<td>{{ voiture.coleur }}</td>
 								<td>{{ voiture.description }}</td>
 								<td>{{ voiture.nombreDePlace }}</td>
-								<td>{{ voiture.nomAgence }}</td>
+								<td>{{ voiture.agence.nom }}</td>
 								<td>
 									<a href="/voiture/modifier/{{ voiture.id }}" class="btn btn-warning">Modifier</a>
-									&nbsp;&nbsp;{# used with get method	#}
+									&nbsp;&nbsp;
+									{# used with get method	#}
 									{# <a href="/voiture/supprimer/{{ voiture.id }}" class="btn btn-danger">Supprimer</a> #}
 										<a id='voiture-delete-btn' data-id={{voiture.id}} class="btn btn-danger"> Supprimer</a>
 								</td>
