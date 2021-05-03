@@ -31,7 +31,7 @@ class AgenceController extends AbstractController
         $form = $this->createFormBuilder($agence)
             // fileds.
             ->add('nom', TextType::class, ['attr' => ['class' => 'form-control']])
-            ->add('telagence', TextType::class, ['attr' => ['class' => 'form-control']])
+            ->add('telAgence', TextType::class, ['attr' => ['class' => 'form-control']])
             ->add('addressVille', TextType::class, ['attr' => ['class' => 'form-control']])
             ->add('ajouter', SubmitType::class, [
                 'label' => 'Ajouter une agence',
@@ -85,7 +85,7 @@ class AgenceController extends AbstractController
         $form = $this->createFormBuilder($agence)
             // fileds.
             ->add('nom', TextType::class, ['attr' => ['class' => 'form-control']])
-            ->add('telagence', TextType::class, ['attr' => ['class' => 'form-control']])
+            ->add('telAgence', TextType::class, ['attr' => ['class' => 'form-control']])
             ->add('addressVille', TextType::class, ['attr' => ['class' => 'form-control']])
             ->add('modifier', SubmitType::class, [
                 'label' => 'Modifier une agence',
