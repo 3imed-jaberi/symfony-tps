@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Agence;
 use App\Entity\Voiture;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,6 +14,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class VoitureController extends AbstractController
@@ -28,6 +31,28 @@ class VoitureController extends AbstractController
         // init the voiture model.
         $voiture = new Voiture();
         
+        // fetch agences.
+        // NOTE: should use services for apply the DRY principe.  
+        $agences = $this->getDoctrine()->getRepository(Agence::class)->findAll();
+        
+        // use only the nom attribute as display value 
+        // and the id attribute as real value.
+        // $choices = array_map(
+        //     fn ($agence) => [$agence->getNom() => $agence],
+        //     $agences
+        // );
+        
+        // not functional programming like the prev.
+        // behavoir but work fine with form builder
+        $choices = function ($agences) {
+            $stack = [];
+            foreach ($agences as $key => $agence) {
+                $stack[$agence->getNom()] = $agence;
+            }
+
+            return $stack;
+        };
+
         // create a from through the symfony form builder. 
         $form = $this->createFormBuilder($voiture)
             // fileds.
@@ -35,22 +60,27 @@ class VoitureController extends AbstractController
             ->add('coleur', TextType::class, ['attr' => ['class' => 'form-control']])
             ->add('description', TextType::class, ['attr' => ['class' => 'form-control']])
             ->add('nombreDePlace', IntegerType::class, ['attr' => ['class' => 'form-control']])
-            ->add('nomAgence', TextType::class, ['attr' => ['class' => 'form-control']])
+            ->add('agence', ChoiceType::class, [
+                'attr' => ['class' => 'form-control'],
+                'choices' => $choices($agences)
+            ])
             ->add('ajouter', SubmitType::class, [
                 'label' => 'Ajouter une voiture',
                 'attr' => ['class' => 'btn btn-primary mt-3 form-control']
             ])
             // form builded.
             ->getForm();
-  
+ 
         // process form data.
         $form->handleRequest($request);
-
+ 
         // look here if we use post request (submitted).
         if($form->isSubmitted() && $form->isValid()) {
             // extract form data.
             $voiture = $form->getData();
-            dump($voiture);
+            // populate the agence id.
+            $voiture->setAgenceId($voiture->getAgence()->getId());
+
             // save it to database.
             $entityManager->persist($voiture);
 
@@ -81,7 +111,36 @@ class VoitureController extends AbstractController
         
         // find the voiture using the id.
         $voiture = $entityManager->getRepository(Voiture::class)->find($id);
+                
+        // fetch agences.
+        // NOTE: should use services for apply the DRY principe.  
+        $agences = $this->getDoctrine()->getRepository(Agence::class)->findAll();
         
+        // use only the nom attribute as display value 
+        // and the id attribute as real value.
+        // $choices = array_map(
+        //     fn ($agence) => [$agence->getNom() => $agence],
+        //     $agences
+        // );
+        
+        // not functional programming like the prev.
+        // behavoir but work fine with form builder
+        $choices = function ($agences) {
+            $stack = [];
+            foreach ($agences as $key => $agence) {
+                $stack[$agence->getNom()] = $agence;
+            }
+
+            return $stack;
+        };
+
+        $selected = function ($agences, $voiture) {
+            foreach ($agences as $key => $agence) {
+                if ($agence->getId() == $voiture->getAgenceId())
+                    return $agence->getNom();
+            }
+        };
+
         // create a from through the symfony form builder. 
         $form = $this->createFormBuilder($voiture)
             // fileds.
@@ -89,7 +148,14 @@ class VoitureController extends AbstractController
             ->add('coleur', TextType::class, ['attr' => ['class' => 'form-control']])
             ->add('description', TextType::class, ['attr' => ['class' => 'form-control']])
             ->add('nombreDePlace', IntegerType::class, ['attr' => ['class' => 'form-control']])
-            ->add('nomAgence', TextType::class, ['attr' => ['class' => 'form-control']])
+            ->add('nombreDePlace', IntegerType::class, ['attr' => ['class' => 'form-control']])
+            ->add('agenceId', HiddenType::class, ['data' => $voiture->getAgenceId() ])
+            ->add('agence', ChoiceType::class, [
+                'attr' => ['class' => 'form-control'],
+                'choices' => $choices($agences),
+                // default selected data.
+                'empty_data' => $selected($agences, $voiture)
+            ])
             ->add('modifier', SubmitType::class, [
                 'label' => 'Modifier une voiture',
                 'attr' => ['class' => 'btn btn-primary mt-3 form-control']
