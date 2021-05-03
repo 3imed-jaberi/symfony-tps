@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\AgenceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=AgenceRepository::class)
+ * @ORM\Table(name="Agences")
  */
 class Agence
 {
@@ -40,16 +42,16 @@ class Agence
     /**
      * @ORM\Column(type="text")
      */
-    private $telagence;
+    private $telAgence;
 
-    public function getTelagence(): ?string
+    public function getTelAgence(): ?string
     {
-        return $this->telagence;
+        return $this->telAgence;
     }
 
-    public function setTelagence($telagence)
+    public function setTelAgence($telAgence)
     {
-        $this->telagence = $telagence;
+        $this->telAgence = $telAgence;
     }
 
     /**
@@ -65,5 +67,21 @@ class Agence
     public function setAddressVille($addressVille)
     {
         $this->addressVille = $addressVille;
+    }
+
+    // mappedBy ---> $agence in voiture.
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Voiture", mappedBy="agence", cascade={"persist", "remove"})
+     */
+    private $voitures;
+
+    public function __construct()
+    {
+        $this->voitures = new ArrayCollection();
+    }
+
+    public function getVoitures()
+    {
+        return $this->voitures;
     }
 }

@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\VoitureRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=VoitureRepository::class)
+ * @ORM\Table(name="Voitures")
  */
 class Voiture
 {
@@ -82,19 +84,35 @@ class Voiture
         $this->nombreDePlace = $nombreDePlace;
     }
 
-    
     /**
-     * @ORM\Column(type="text")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Agence", inversedBy="voitures")
+     * @ORM\JoinColumn(nullable=true)
+     * @Assert\NotNull
      */
-    private $nomAgence;
+    private $agence;
 
-    public function getNomAgence(): ?string
+    public function getAgence(): ?Agence
     {
-        return $this->nomAgence;
+        return $this->agence;
     }
 
-    public function setNomAgence($nomAgence)
+    public function setAgence(?Agence $agence): self
     {
-        $this->nomAgence = $nomAgence;
+        $this->agence = $agence;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $agenceId;
+
+    public function getAgenceId() {
+        return $this->agenceId;
+    }
+
+    public function setAgenceId($agenceId) {
+        $this->agenceId = $agenceId;
     }
 }
