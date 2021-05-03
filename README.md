@@ -1,6 +1,11 @@
-# Symfony TP01
+# Symfony TPs
 
-This project is a crud web application using symfony. It's my work for [the 1st TP](TP01.pdf) [Academic Project].
+This project is a web application using symfony. It's my work for TP(s) [Academic Project].
+
+### `TPs List`
+
+- ✔️ [TP01](TP01.pdf)
+- ✔️ [TP02](TP02.pdf)
 
 ### `Setup prerequists`
 
