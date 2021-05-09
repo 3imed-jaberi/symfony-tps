@@ -9,7 +9,7 @@
 	{% 
 		include 'components/page-title.html.twig' 
 		with {
-			'content': 'Admin Page - agences et voitures'
+			'content': 'Dashboard Page - agences et voitures'
 		}
 	%}
 	{# ========================================== #}
@@ -18,7 +18,9 @@
 		<div class="card" style="margin-top: 5rem;"> <div class="card-header">
 			<h1>
 				Agences &nbsp;&nbsp;
-				<a href="/agence/ajouter" class="btn btn-primary" style="padding-left: 3.5rem; padding-right: 3.5rem;">Ajouter</a>
+				{% if is_granted('ROLE_ADMIN') %}
+					<a href="/agence/ajouter" class="btn btn-primary" style="padding-left: 3.5rem; padding-right: 3.5rem;">Ajouter</a>
+				{% endif %}
 			</h1>
 		</div>
 		<div class="card-body">
@@ -34,7 +36,9 @@
 							<th>Nom</th>
 							<th>Telagence</th>
 							<th>Address Ville</th>
-							<th>Actions</th>
+							{% if is_granted('ROLE_ADMIN') %}
+								<th>Actions</th>
+							{% endif %}
 						</tr>
 					</thead>
 					<tbody>
@@ -44,15 +48,17 @@
 								<td>{{ agence.nom }}</td>
 								<td>{{ agence.telAgence }}</td>
 								<td>{{ agence.addressVille }}</td>
-								<td>
-									<a href="/agence/consulter/{{ agence.id }}" class="btn btn-success">Voir</a>
-									&nbsp;
-									<a href="/agence/modifier/{{ agence.id }}" class="btn btn-warning">Modifier</a>
-									&nbsp;
-									{# used with get method	#}
-									{# <a href="/agence/supprimer/{{ agence.id }}" class="btn btn-danger">Supprimer</a> #}
-										<a id='agence-delete-btn' data-id={{ agence.id }} class="btn btn-danger"> Supprimer</a>
-								</td>
+								{% if is_granted('ROLE_ADMIN') %}
+									<td>
+										<a href="/agence/consulter/{{ agence.id }}" class="btn btn-success">Voir</a>
+										&nbsp;
+										<a href="/agence/modifier/{{ agence.id }}" class="btn btn-warning">Modifier</a>
+										&nbsp;
+										{# used with get method	#}
+										{# <a href="/agence/supprimer/{{ agence.id }}" class="btn btn-danger">Supprimer</a> #}
+											<a id='agence-delete-btn' data-id={{ agence.id }} class="btn btn-danger"> Supprimer</a>
+									</td>
+								{% endif %}
 							</tr>
 						{% endfor %}
 					</tbody>

@@ -12,12 +12,27 @@
 				<li class="nav-item">
 					<a href="/" class="nav-link" style="font-size: x-large;">Home</a>
 				</li>
-				<li class="nav-item">
-					<a href="/agence/ajouter" class="nav-link" style="font-size: x-large;">Ajouter Agence</a>
-				</li>
-				<li class="nav-item">
-					<a href="/voiture/ajouter" class="nav-link" style="font-size: x-large;">Ajouter Voiture</a>
-				</li>
+				{% if app.user %}
+					{% if is_granted('ROLE_ADMIN') %}
+						<li class="nav-item">
+							<a href="/agence/ajouter" class="nav-link" style="font-size: x-large;">Ajouter Agence</a>
+						</li>
+					{% endif %}
+					<li class="nav-item">
+						<a href="/voiture/ajouter" class="nav-link" style="font-size: x-large;">Ajouter Voiture</a>
+					</li>
+					<li class="nav-item">
+						<a href="/logout" class="nav-link btn btn-danger" style="font-size: x-large;">Logout</a>
+					</li>
+				{% else %}
+					<li class="nav-item">
+						<a href="/register" class="nav-link" style="font-size: x-large;">Register</a>
+					</li>
+					<li class="nav-item">
+						<a href="/login" class="nav-link" style="font-size: x-large;">Login</a>
+					</li>
+				{% endif %}
+
 			</ul>
 		</div>
 	</div>
